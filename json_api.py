@@ -2,6 +2,8 @@ import requests
 import json
 import csv
 
+
+
 def time_format(time):
     hours, minutes = [int(x) for x in time.split(':')]
     days = hours // 24
@@ -57,25 +59,25 @@ def pull_data(origin, departure, date, api_key='oIkAPQAiwHwJc7cUHCblNxkwwm0wqAZM
             routes.append((flight_num, fare + tax, flight_path, duration))
     return sorted(routes, key=lambda x:x[1])
 
-def main(origin, departure, date):
+def find_flights(origin, departure, date, iata_codes=None):
 ##    origin = input('Input Initial Location. ')
 ##    departure = input('Input Destination. ')
 ##    date = input('Inpute Departure Date. ')
-    iata_codes = set()
-    with open('iata.sql', 'r') as file:
-        lines = csv.reader(file)
-        for line in lines:
-            iata_codes.add(line[1].replace("'", ''))
+    if iata_codes is None:
+        iata_codes = set()
+        with open('iata.sql', 'r') as file:
+            lines = csv.reader(file)
+            for line in lines:
+                iata_codes.add(line[1].replace("'", ''))
     if origin not in iata_codes:
-        print('Invalid Starting Location.')
-        return None
+        return 'Invalid Starting Location.'
     if departure not in iata_codes:
-        print('Invalid Destination.')
-        return None
+        return 'Invalid Destination.'
     result = pull_data(origin, departure, date)
     if result == 'No matching results.':
-        print(result)
+        return result
     else:
+        flights = []
         for x in result:
             flight_number, cost, flight_path, duration = x
             duration = time_format(duration)
@@ -83,7 +85,12 @@ def main(origin, departure, date):
                 flight_path = 'Direct Flight'
             else:
                 flight_path = ' -> '.join([x[0] for x in flight_path] + [flight_path[-1][1]])
-            print('Flight {0:8} {2:35} {3:30} ${1:.2f}'.format(flight_number, cost, flight_path, duration))
+            flights.append('Flight {0:8} {2:35} {3:30} ${1:.2f}'.format(flight_number, cost, flight_path, duration))
+        return flights
+
+def main(origin, departure, date):
+    for flight in find_flights(origin, departure, date):
+        print(flight)
 
 if __name__ == '__main__':
     main('IST', 'BOS', '2018-12-01')
