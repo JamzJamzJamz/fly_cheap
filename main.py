@@ -1,19 +1,22 @@
 from flask import Flask, request, render_template
-import json_api
+import fly_cheap
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST'])
-def handle_data():
-    departure = request.form['text']
-    arrival = request.form['text']
-    date = request.form['text']
-    
-    return render_template('index.html',departure, arrival, date)
 @app.route('/')
-def show_data():
-    flights = json_api.find_flights(departure,arrival,date)
-    print(flights)
+def form():
+	return render_template('index.html')
+
+@app.route('/', methods=['POST'])
+def form_update():
+	if request.method == 'POST':
+		departure = request.form['dept']
+		destination = request.form['dest']
+		date = request.form['day']
+		flights = fly_cheap.find_flights(departure, destination, date)
+		if flights != 'Invalid Starting Location.' and flights != 'Invalid Destination.' and flights != 'No matching results.':
+			flights = '\n'.join(flights)
+		return render_template('index.html', flights = flights)
 
 if __name__ == '__main__':
     app.run(debug=True)

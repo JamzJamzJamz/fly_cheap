@@ -4,26 +4,16 @@
 
 <h3>A demonstration of Flycheap</h3>
 <form method="POST">
-    <input type="text" id="From" value="HOU">
+    <input type="text" id="From" value="HOU" name="dept">
 
-    <input type="text" id="To" value="NYC">
+    <input type="text" id="To" value="AUS" name="dest">
 
-    <input type="text" id="Date" value="Date">
+    <input type="text" id="Date" value="2018-12-01" name="day">
+
+    <input type="submit" value="Submit"><br>
 
 </form>
-<p>Click the "Try it" button to get cheapest flights</p>
-
-<button onclick="myFunction()">Try it</button>
-
-<p id="demo"></p>
-
-<script>
-function myFunction() {
-    var from = document.getElementById("From").value;    
-    var to = document.getElementById("To").value;
-    document.getElementById("demo").innerHTML = {{ flights }};
-}
-</script>
+<pre>{{ flights }}</pre>
 
 </body>
 </html>

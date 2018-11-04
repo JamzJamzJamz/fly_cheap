@@ -2,8 +2,6 @@ import requests
 import json
 import csv
 
-
-
 def time_format(time):
     hours, minutes = [int(x) for x in time.split(':')]
     days = hours // 24
@@ -77,7 +75,7 @@ def find_flights(origin, departure, date, iata_codes=None):
     if result == 'No matching results.':
         return result
     else:
-        flights = []
+        flights = ['Flight {0:8} {2:35} {3:30} {1}'.format('Number', ' Cost', '   Itinerary', '   Duration'), '-' * 100]
         for x in result:
             flight_number, cost, flight_path, duration = x
             duration = time_format(duration)
