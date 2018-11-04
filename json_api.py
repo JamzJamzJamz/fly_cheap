@@ -1,5 +1,6 @@
 import requests
 import json
+import csv
 
 def time_format(time):
     hours, minutes = [int(x) for x in time.split(':')]
@@ -32,7 +33,6 @@ def time_format(time):
         return minute_string[1:]
     else:
         return duration
-    
 
 def pull_data(origin, departure, date, api_key='oIkAPQAiwHwJc7cUHCblNxkwwm0wqAZM'):
     flights = requests.get('https://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?apikey={0}&origin={1}&destination={2}&departure_date={3}'.format(api_key, origin, departure, date))
@@ -61,6 +61,17 @@ def main(origin, departure, date):
 ##    origin = input('Input Initial Location. ')
 ##    departure = input('Input Destination. ')
 ##    date = input('Inpute Departure Date. ')
+    iata_codes = set()
+    with open('iata.sql', 'r') as file:
+        lines = csv.reader(file)
+        for line in lines:
+            iata_codes.add(line[1].replace("'", ''))
+    if origin not in iata_codes:
+        print('Invalid Starting Location.')
+        return None
+    if departure not in iata_codes:
+        print('Invalid Destination.')
+        return None
     result = pull_data(origin, departure, date)
     if result == 'No matching results.':
         print(result)
