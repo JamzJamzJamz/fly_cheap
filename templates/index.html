@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>A demonstration of Flycheap</h3>
+<form method="POST">
+    <input type="text" id="From" value="HOU">
+
+    <input type="text" id="To" value="NYC">
+
+    <input type="text" id="Date" value="Date">
+
+</form>
+<p>Click the "Try it" button to get cheapest flights</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+    var from = document.getElementById("From").value;    
+    var to = document.getElementById("To").value;
+    document.getElementById("demo").innerHTML = {{ flights }};
+}
+</script>
+
+</body>
+</html>
