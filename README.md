@@ -10,5 +10,7 @@ Going further from this we hope to implement it on a website using Domain.com an
 
 ## Learn more about the team
 Conrad Parker – [conrad760](https://github.com/conrad760) – conradlparker@gmail.com
+
 Toan-James Le – [JamzJamzJamz](https://github.com/JamzJamzJamz) – le.toanjames@gmail.com
+
 Khalid Hourani – [KalHourani](https://github.com/KalHourani) – khalid.hourani@gmail.com
